@@ -10,7 +10,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { logConfig } from './infrastructure/config.js'
 import { config } from './infrastructure/config.js'
-import { getPool, closePool } from './infrastructure/db.js'
+import { getPool, closePool, runMigrations } from './infrastructure/db.js'
 import { closeRedis } from './infrastructure/redis.js'
 import { webhookHandler, healthHandler } from './server/webhook-handler.js'
 import { startMcpServer } from './mcp/server.js'
@@ -20,6 +20,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 async function main(): Promise<void> {
   // 1. Validate and log configuration
   logConfig()
+
+  // 1b. Run DB migrations (idempotent — safe on every startup)
+  await runMigrations()
 
   // 2. Create Express app
   const app = express()
