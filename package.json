@@ -1,0 +1,29 @@
+{
+  "name": "doradobet-agent",
+  "version": "1.0.0",
+  "description": "Paul - DoradoBet AI agent. Replaces n8n workflow with a single intelligent Claude agent.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:create": "psql $DATABASE_URL -f scripts/create_tables.sql",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.38.0",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "dotenv": "^17.3.1",
+    "express": "^4.18.0",
+    "pg": "^8.11.0",
+    "redis": "^4.7.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
