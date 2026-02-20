@@ -22,7 +22,12 @@ async function main(): Promise<void> {
   logConfig()
 
   // 1b. Run DB migrations (idempotent — safe on every startup)
-  await runMigrations()
+  // Non-fatal: if DB is temporarily unreachable on startup, continue anyway
+  try {
+    await runMigrations()
+  } catch (err) {
+    console.warn('[App] DB migration failed (non-fatal, will retry on next request):', err instanceof Error ? err.message : err)
+  }
 
   // 2. Create Express app
   const app = express()
